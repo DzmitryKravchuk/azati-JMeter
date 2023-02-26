@@ -2,7 +2,6 @@ package org.example.simpleApp.controller;
 
 import org.assertj.core.api.SoftAssertions;
 import org.example.simpleApp.dto.SimpleCreateRequest;
-import org.example.simpleApp.dto.SimpleGetResponse;
 import org.example.simpleApp.mapper.SimpleMapper;
 import org.example.simpleApp.persistence.entity.SimpleEntity;
 import org.example.simpleApp.service.SimpleService;
@@ -13,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,8 +26,6 @@ class SimpleControllerTest {
 
     private static final SimpleCreateRequest request = createRequest(100);
 
-    private  static final SimpleGetResponse response = createResponse(1L, 100);
-
     private static final SimpleEntity modelFromRequest = createModel(null, 100);
 
     private static final SimpleEntity modelFromResponse = createModel(1L, 100);
@@ -40,10 +36,6 @@ class SimpleControllerTest {
         model.setIntValue(intVal);
 
         return model;
-    }
-
-    private static SimpleGetResponse createResponse(Long id, Integer intValue) {
-        return new SimpleGetResponse(id, intValue);
     }
 
     private static SimpleCreateRequest createRequest(Integer intValue) {
