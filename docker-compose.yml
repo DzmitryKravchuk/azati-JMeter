@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    #restart: always
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - network
+    environment:
+      - POSTGRES_DB=simple
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - d-base:/var/lib/postgresql/data
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PORT=8080
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres/simple
+    image: app
+    container_name: app
+    ports:
+      - "8080:8080"
+    networks:
+      - network
+    depends_on:
+      - postgres
+
+  jmeter-master:
+    build: ./jmeter-master
+    container_name: jmeter-master
+    tty: true
+    networks:
+      - network
+    depends_on:
+      - app
+  jmeter-slave:
+    build: ./jmeter-slave
+    networks:
+      - network
+    depends_on:
+      - jmeter-master
+
+networks:
+  network:
+    driver: bridge
+
+volumes:
+  d-base:

@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version '2.7.5'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitJupiterApiVersion='5.7.0'
+}
+
+dependencies {
+    //      Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly "org.projectlombok:lombok"
+    testAnnotationProcessor "org.projectlombok:lombok"
+
+    //      Spring
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    //      Database
+    runtimeOnly 'org.postgresql:postgresql'
+
+    //      test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.h2database:h2'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterApiVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterApiVersion}"
+}
+
+test {
+    useJUnitPlatform()
+}
