@@ -1,8 +1,6 @@
 package org.example.simpleApp.controller;
 
 import org.assertj.core.api.SoftAssertions;
-import org.example.simpleApp.dto.SimpleCreateRequest;
-import org.example.simpleApp.mapper.SimpleMapper;
 import org.example.simpleApp.persistence.entity.SimpleEntity;
 import org.example.simpleApp.service.SimpleService;
 import org.junit.jupiter.api.Test;
@@ -18,13 +16,11 @@ import static org.mockito.Mockito.when;
 class SimpleControllerTest {
     @Mock
     private SimpleService simpleService;
-    @Mock
-    private SimpleMapper mapper;
 
     @InjectMocks
     SimpleController simpleController;
 
-    private static final SimpleCreateRequest request = createRequest(100);
+    private static final Integer request = 100;
 
     private static final SimpleEntity modelFromRequest = createModel(null, 100);
 
@@ -38,14 +34,9 @@ class SimpleControllerTest {
         return model;
     }
 
-    private static SimpleCreateRequest createRequest(Integer intValue) {
-        return new SimpleCreateRequest(intValue);
-    }
-
     @Test
     public void shouldCreate() {
         // when
-        when(mapper.mapToEntity(request)).thenReturn(modelFromRequest);
         when(simpleService.save(modelFromRequest)).thenReturn(modelFromResponse);
         var actualResult = simpleController.create(request);
 
